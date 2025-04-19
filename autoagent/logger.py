@@ -5,6 +5,7 @@ import json
 from typing import List
 from constant import DEBUG, DEFAULT_LOG, LOG_PATH, MC_MODE
 from pathlib import Path
+import os
 BAR_LENGTH = 60
 class MetaChainLogger:
     def __init__(self, log_path: str):
@@ -154,7 +155,7 @@ class LoggerManager:
         cls.get_instance()._logger = new_logger
 if DEFAULT_LOG:
     if LOG_PATH is None:
-        log_dir = Path(f'logs/res_{datetime.now().strftime("%Y%m%d_%H%M%S")}')
+        log_dir = Path(os.path.expanduser("~")) / "AutoAgent_logs" / f'res_{datetime.now().strftime("%Y%m%d_%H%M%S")}'
         log_dir.mkdir(parents=True, exist_ok=True)  # recursively create all necessary parent directories
         log_path = str(log_dir / "agent.log")
         # logger = MetaChainLogger(log_path=log_path)

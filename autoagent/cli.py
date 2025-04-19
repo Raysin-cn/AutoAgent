@@ -424,3 +424,28 @@ def deep_research(container_name: str, port: int, local_env: bool):
         else: 
             console.print(f"[bold red]Unknown agent: {agent}[/bold red]")
     
+@cli.command(name='docker-dir')
+@click.option('--path', default='/', help='要查看的目录路径')
+@click.option('--depth', default=2, help='目录深度')
+@click.option('--mode', default='tree', help='查看模式：tree/ls/pwd')
+def docker_dir(path: str, depth: int, mode: str):
+    """
+    查看 Docker 容器中的目录结构
+    """
+    docker_config = get_config('auto_agent', 12347)
+    code_env, _, _ = create_environment(docker_config)
+    
+    context_variables = {"code_env": code_env}
+    
+    if mode == 'tree':
+        result = list_docker_dirs(context_variables, path, depth)
+    elif mode == 'ls':
+        result = docker_ls(context_variables, path)
+    elif mode == 'pwd':
+        result = docker_pwd(context_variables)
+    else:
+        print("无效的模式，请使用 tree/ls/pwd")
+        return
+        
+    print(result.value)
+    

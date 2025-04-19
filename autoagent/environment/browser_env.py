@@ -337,7 +337,7 @@ def _checkMeetChallenge():
 class BrowserEnv:
     def __init__(self, browsergym_eval_env: str | None = None, local_root: str | None = None, workplace_name: str | None = None):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_dir = Path(f"logs/res_{timestamp}")
+        log_dir = Path(os.path.expanduser("~")) / "AutoAgent_logs" / f"res_{timestamp}"
         log_dir.mkdir(parents=True, exist_ok=True)  # recursively create all necessary parent directories
         log_path = str(log_dir / "browser_env.log")
         self.log_path = log_path
